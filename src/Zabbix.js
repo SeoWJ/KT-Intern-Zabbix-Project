@@ -24,7 +24,8 @@ export class Zabbix {
                 return response.json();
             })
     }
-    fetchGetHost(url) {
+
+    fetchHostGet(url) {
         return fetch(url, {
             method: "POST",
             headers: {
@@ -51,10 +52,43 @@ export class Zabbix {
                 return response.json();
             })
     }
-    async getData() {
+
+    fetchItemGet(url, itemid) {
+        return fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "jsonrpc": "2.0",
+                "method": "item.get",
+                "params": {
+                    "filter": {"name": ["Is This HAProxy LoadBalancer", "httpd log", "HAProxy Load Balancer config"]},
+                    "output": ["itemid", "hostid", "name", "lastvalue"],
+                    "sortfield": "name"
+                },
+                "auth": this.key,
+                "id": 1
+            })
+        })
+            .then((response) => {
+                return response.json();
+            })
+    }
+
+    async getHostData() {
         let userLoginResponse = await this.fetchUserLogin(this.url);
-        this.key = Object.values(userLoginResponse)[1];
-        let getHostResponse = await this.fetchGetHost(this.url);
-        console.log(getHostResponse);
+        this.key = userLoginResponse['result'];
+        console.log(this.key);
+        let hostGetResponse = await this.fetchHostGet(this.url);
+
+        return hostGetResponse['result'];
+    }
+
+    async getItemData() {
+        let itemGetResponse = await this.fetchItemGet(this.url);
+        console.log(itemGetResponse);
+
+        return itemGetResponse['result'];
     }
 }
