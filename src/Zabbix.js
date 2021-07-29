@@ -63,7 +63,7 @@ export class Zabbix {
                 "jsonrpc": "2.0",
                 "method": "item.get",
                 "params": {
-                    "filter": {"name": ["Is This HAProxy LoadBalancer", "httpd log", "HAProxy Load Balancer config"]},
+                    "filter": {"name": ["Is This Apache Server", "Is This HAProxy LoadBalancer", "httpd log", "HAProxy Load Balancer config"]},
                     "output": ["itemid", "hostid", "name", "lastvalue"],
                     "sortfield": "name"
                 },
@@ -87,7 +87,6 @@ export class Zabbix {
 
     async getItemData() {
         let itemGetResponse = await this.fetchItemGet(this.url);
-        console.log(itemGetResponse);
 
         return itemGetResponse['result'];
     }

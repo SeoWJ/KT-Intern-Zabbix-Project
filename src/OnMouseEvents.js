@@ -14,7 +14,7 @@ const arrowActiveScale = 1.2;
 
 const dimColor = '#dfe4ea';
 const edgeColor = '#ced6e0';
-const nodeColor = '#57606f';
+const nodeColor = '#BBBBBB';
 const nodeActiveColor = '#ffa502';
 
 // 상위 node & edge color
@@ -64,9 +64,9 @@ export function setFocus(target_element, successorColor, predecessorsColor, edge
         setOpacityElement(e, 1);
     }
     );
-    target_element.style('width', Math.max(parseFloat(target_element.style('width')), nodeActiveSize));
-    target_element.style('height', Math.max(parseFloat(target_element.style('height')), nodeActiveSize));
-    target_element.style('font-size', Math.max(parseFloat(target_element.style('font-size')), fontActiveSize));
+    //target_element.style('width', Math.max(parseFloat(target_element.style('width')), nodeActiveSize));
+    //target_element.style('height', Math.max(parseFloat(target_element.style('height')), nodeActiveSize));
+    //target_element.style('font-size', Math.max(parseFloat(target_element.style('font-size')), fontActiveSize));
 }
 
 export function setOpacityElement(target_element, degree) {
@@ -90,4 +90,22 @@ export function setResetFocus(target_cy) {
         target.style('arrow-scale', arrowScale);
         target.style('opacity', 1);
     });
+}
+
+export function showNodeInfo(x, zabbix) { 
+    var positionLeft = x.clientX; 
+    var positionTop = x.clientY;
+    var contents;
+
+    document.getElementById('info').style.left = positionLeft + 15 + "px"; 
+    document.getElementById('info').style.top = positionTop + 5 +"px";
+    document.getElementById('info').style.width = 100 + "px";
+    document.getElementById('info').style.height = 100 + "px";
+    document.getElementById('info').innerHTML = " 노드의<br>연결정보가<br>들어갈 부분";
+}
+
+export function closeNodeInfo(){
+    document.getElementById('info').style.width = 0 + "px";
+    document.getElementById('info').style.height = 0 + "px";
+    document.removeEventListener("mousemove", showNodeInfo);
 }
