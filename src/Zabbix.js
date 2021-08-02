@@ -76,6 +76,29 @@ export class Zabbix {
             })
     }
 
+    fetchNodeInfo(url, hostid){
+        return fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "jsonrpc": "2.0",
+                "method": "item.get",
+                "params": {
+                    "output": ["hostid", "name", "lastvalue"],
+                    "hostids": hostid,
+                    "sortfield": "name"
+                },
+                "auth": this.key,
+                "id": 1
+            })
+        })
+            .then((response) => {
+                return response.json();
+            })
+    }
+
     async getHostData() {
         let userLoginResponse = await this.fetchUserLogin(this.url);
         this.key = userLoginResponse['result'];
@@ -89,5 +112,11 @@ export class Zabbix {
         let itemGetResponse = await this.fetchItemGet(this.url);
 
         return itemGetResponse['result'];
+    }
+
+    async getNodeInfo(hostid){
+        let nodeInfoResponse = await this.fetchNodeInfo(this.url, hostid);
+
+        return nodeInfoResponse['result'];
     }
 }

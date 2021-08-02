@@ -1,3 +1,5 @@
+import { Zabbix } from "./Zabbix";
+
 // node & font 크기 값
 const nodeMaxSize = 50;
 const nodeMinSize = 5;
@@ -14,7 +16,7 @@ const arrowActiveScale = 1.2;
 
 const dimColor = '#dfe4ea';
 const edgeColor = '#ced6e0';
-const nodeColor = '#BBBBBB';
+const nodeColor = '#000000';
 const nodeActiveColor = '#ffa502';
 
 // 상위 node & edge color
@@ -64,9 +66,6 @@ export function setFocus(target_element, successorColor, predecessorsColor, edge
         setOpacityElement(e, 1);
     }
     );
-    //target_element.style('width', Math.max(parseFloat(target_element.style('width')), nodeActiveSize));
-    //target_element.style('height', Math.max(parseFloat(target_element.style('height')), nodeActiveSize));
-    //target_element.style('font-size', Math.max(parseFloat(target_element.style('font-size')), fontActiveSize));
 }
 
 export function setOpacityElement(target_element, degree) {
@@ -76,10 +75,6 @@ export function setOpacityElement(target_element, degree) {
 export function setResetFocus(target_cy) {
     target_cy.nodes().forEach(function (target) {
         target.style('background-color', nodeColor);
-        //var rank = pageRank.rank(target);
-        //target.style('width', nodeMaxSize * rank + nodeMinSize);
-        //target.style('height', nodeMaxSize * rank + nodeMinSize);
-        //target.style('font-size', fontMaxSize * rank + fontMinSize);
         target.style('color', nodeColor);
         target.style('opacity', 1);
     });
@@ -92,20 +87,36 @@ export function setResetFocus(target_cy) {
     });
 }
 
-export function showNodeInfo(x, zabbix) { 
-    var positionLeft = x.clientX; 
-    var positionTop = x.clientY;
-    var contents;
+export function showNodeInfo(hostid, type, zabbix) {
+    document.getElementById('info').style.opacity = 0.4;
 
-    document.getElementById('info').style.left = positionLeft + 15 + "px"; 
-    document.getElementById('info').style.top = positionTop + 5 +"px";
-    document.getElementById('info').style.width = 100 + "px";
-    document.getElementById('info').style.height = 100 + "px";
-    document.getElementById('info').innerHTML = " 노드의<br>연결정보가<br>들어갈 부분";
+    var nodeInfo = zabbix.getNodeInfo(hostid);
+
+    nodeInfo.then((nodeInfo) => {
+        if (type == "lb") {
+            for (var key in Object.keys(nodeInfo)) {
+                if (nodeInfo[key]['name'].includes("Traffic") || nodeInfo[key]['name'].includes("Health Check")) {
+                    document.getElementById('info').innerHTML += nodeInfo[key]['name'] + " : " + nodeInfo[key]['lastvalue'] + "<br>";
+                }
+            }
+        }
+        else if (type == "apacheServer") {
+            for (var key in Object.keys(nodeInfo)) {
+                if (nodeInfo[key]['name'].includes("Traffic") || nodeInfo[key]['name'].includes("Health Check")) {
+                    document.getElementById('info').innerHTML += nodeInfo[key]['name'] + " : " + nodeInfo[key]['lastvalue'] + "<br>";
+                }
+            }
+        }
+        else if (type == "switch") {
+            for (var key in Object.keys(nodeInfo)) {
+                document.getElementById('info').innerHTML += nodeInfo[key]['name'] + " : " + nodeInfo[key]['lastvalue'] + "<br>";
+            }
+        }
+    });
 }
 
-export function closeNodeInfo(){
-    document.getElementById('info').style.width = 0 + "px";
-    document.getElementById('info').style.height = 0 + "px";
+export function closeNodeInfo() {
+    document.getElementById('info').style.opacity = 0;
+    document.getElementById('info').innerHTML = "";
     document.removeEventListener("mousemove", showNodeInfo);
 }
