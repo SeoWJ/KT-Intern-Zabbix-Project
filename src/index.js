@@ -7,12 +7,18 @@ import { setDimStyle, setFocus, setOpacityElement, setResetFocus, showNodeInfo, 
 const ipExp = /((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})/g;
 const exclusiveIp = /^127/;
 
-const loadBalancerIconUrl = 'https://image.flaticon.com/icons/png/512/750/750618.png';
-const switchIconUrl = 'https://image.flaticon.com/icons/png/512/1089/1089006.png';
-const instanceIconUrl = 'https://image.flaticon.com/icons/png/512/2004/2004580.png';
+const loadBalancerIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/0.lb.png';
+const switchIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/0.switch.png';
+const instanceIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/0.instance.png';
 const serverIconUrl = 'https://image.flaticon.com/icons/png/512/622/622397.png';
-const cloudIconUrl = 'https://image.flaticon.com/icons/png/512/1163/1163573.png';
-const unknownDeviceIconUrl = 'https://image.flaticon.com/icons/png/512/1828/1828934.png';
+const cloudIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/0.cloud.png';
+const unknownDeviceIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/0.unknown.png';
+
+// const loadBalancerIconUrl = './lb.png';
+// const switchIconUrl = './switch.png';
+// const instanceIconUrl = './instance.png';
+// const cloudIconUrl = './cloud.png';
+//const unknownDeviceIconUrl = './unknown.png';
 
 // edge & arrow 크기값
 const edgeWidth = '2px';
@@ -40,7 +46,8 @@ var cy = cytoscape({
         {
             selector: 'node',
             style: {
-                'shape': 'rectangle',
+                //'shape': 'rectangle',
+                'shape': 'ellipse',
                 'background-color': nodeColor,
                 'background-image': switchIconUrl,
                 'background-fit': 'contain',
@@ -48,7 +55,7 @@ var cy = cytoscape({
                 'label': 'data(label)',
                 'width': 30,
                 'height': 24,
-                'font-size': 5,
+                'font-size': 10,
             }
         },
 
@@ -72,11 +79,38 @@ cy.on('tap', function (e) {
     if (connectUrl && connectUrl != ' ') {
         window.open(connectUrl);
     }
-});
+}); // left click
+
+cy.on('cxttap', "node", function (e) {
+    if (this.scratch().restData == null) {
+        // Save node data and remove
+        this.scratch({
+            restData: this.successors().targets().remove()
+        });
+    } else {
+        // Restore the removed nodes from saved data
+        this.scratch().restData.restore();
+        if (this == cy.$('node[id = "10424"]')[0]) {
+            var subgraphLayout = this.scratch().restData.layout({
+                name: 'circle',
+                radius: 3,
+                fit: true,
+                startAngle: 0.5 * Math.PI,
+                sweep: 0.75 * Math.PI,
+                boundingBox: { x1: this.position()['x'] - 100, y1: this.position()['y'] - 100, w: 200, h: 200 }
+            })
+            subgraphLayout.run();
+        }
+
+        this.scratch({
+            restData: null
+        });
+    }
+}); // right click
 
 // OnMouse 이벤트
 cy.on('tapstart mouseover', 'node', function (e) {
-    console.log(e.target.data());
+    console.log(e.target.position());
     document.addEventListener("mousemove", showNodeInfo(e.target.data()['id'], e.target.data()['type'], zabbix));
 
     setDimStyle(cy, {
@@ -103,10 +137,10 @@ window.addEventListener('resize', function () {
 });
 
 // 자동 새로고침
-setTimeout(function () {
-    location.reload();
-}, 60000
-);
+// setTimeout(function () {
+//     location.reload();
+// }, 60000
+// );
 
 // 자빅스 객체 생성 및 api 호출
 var zabbix = new Zabbix("http://211.253.37.78:10002/zabbix/api_jsonrpc.php");
@@ -159,6 +193,10 @@ hosts.then((hosts) => {
                 "target": 10424
             }
         })
+        cy.$('node[id = "10424"]').scratch({
+            restData: cy.$('node[id = "10424"]').successors().targets().remove()
+        });
+
         cy.$('node[id = "10424"]')[0].data('type', 'switch');
         // END make sample data for CISCO Switch L3
 
@@ -196,9 +234,8 @@ hosts.then((hosts) => {
                 }
             }
         }
-
         cy.layout({
-            name: 'dagre'
+            name: 'dagre',
         }).run();
     })
 })

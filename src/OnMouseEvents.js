@@ -46,7 +46,7 @@ export function setFocus(target_element, successorColor, predecessorsColor, edge
         e.style('background-color', successorColor);
         e.style('line-color', successorColor);
         e.style('target-arrow-color', successorColor);
-        setOpacityElement(e, 0.5);
+        setOpacityElement(e, 1);
     }
     );
     target_element.predecessors().each(function (e) {
@@ -59,7 +59,7 @@ export function setFocus(target_element, successorColor, predecessorsColor, edge
         e.style('background-color', predecessorsColor);
         e.style('line-color', predecessorsColor);
         e.style('target-arrow-color', predecessorsColor);
-        setOpacityElement(e, 0.5);
+        setOpacityElement(e, 1);
     });
     target_element.neighborhood().each(function (e) {
         // 이웃한 엣지와 노드
