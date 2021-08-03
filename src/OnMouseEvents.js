@@ -16,7 +16,7 @@ const arrowActiveScale = 1.2;
 
 const dimColor = '#dfe4ea';
 const edgeColor = '#ced6e0';
-const nodeColor = '#000000';
+const nodeColor = '#FFFFFF';
 const nodeActiveColor = '#ffa502';
 
 // 상위 node & edge color

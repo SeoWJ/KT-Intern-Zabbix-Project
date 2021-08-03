@@ -28,7 +28,7 @@ const arrowActiveScale = 1.2;
 
 const dimColor = '#dfe4ea';
 const edgeColor = '#ced6e0';
-const nodeColor = '#000000';
+const nodeColor = '#FFFFFF';
 const nodeActiveColor = '#ffa502';
 
 // 상위 node & edge color
@@ -53,9 +53,10 @@ var cy = cytoscape({
                 'background-fit': 'contain',
                 'background-opacity': 0,
                 'label': 'data(label)',
-                'width': 30,
-                'height': 24,
-                'font-size': 10,
+                'width': 50,
+                'height': 50,
+                'font-size': 13,
+                'color': '#FFFFFF'
             }
         },
 
