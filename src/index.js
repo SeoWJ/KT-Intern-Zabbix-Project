@@ -88,6 +88,9 @@ cy.on('cxttap', "node", function (e) {
         this.scratch({
             restData: this.successors().targets().remove()
         });
+        cy.layout({
+            name: 'dagre',
+        }).run();
     } else {
         // Restore the removed nodes from saved data
         this.scratch().restData.restore();
