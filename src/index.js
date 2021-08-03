@@ -117,7 +117,7 @@ cy.on('cxttap', "node", function (e) {
 // OnMouse 이벤트
 cy.on('tapstart mouseover', 'node', function (e) {
     console.log(e.target.position());
-    document.addEventListener("mousemove", showNodeInfo(e.target.data()['id'], e.target.data()['type'], zabbix));
+    //document.addEventListener("mousemove", showNodeInfo(e.target.data()['id'], e.target.data()['type'], zabbix));
 
     setDimStyle(cy, {
         'background-color': dimColor,
@@ -128,7 +128,7 @@ cy.on('tapstart mouseover', 'node', function (e) {
     setFocus(e.target, successorColor, predecessorsColor, edgeActiveWidth, arrowActiveScale);
 });
 cy.on('tapend mouseout', 'node', function (e) {
-    closeNodeInfo();
+    //closeNodeInfo();
     setResetFocus(e.cy);
 });
 

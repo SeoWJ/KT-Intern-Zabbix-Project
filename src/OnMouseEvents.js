@@ -87,7 +87,7 @@ export function setResetFocus(target_cy) {
     });
 }
 
-export function showNodeInfo(hostid, type, zabbix) {
+/*export function showNodeInfo(hostid, type, zabbix) {
     document.getElementById('info').style.opacity = 0.4;
 
     var nodeInfo = zabbix.getNodeInfo(hostid);
@@ -119,4 +119,4 @@ export function closeNodeInfo() {
     document.getElementById('info').style.opacity = 0;
     document.getElementById('info').innerHTML = "";
     document.removeEventListener("mousemove", showNodeInfo);
-}
+}*/
