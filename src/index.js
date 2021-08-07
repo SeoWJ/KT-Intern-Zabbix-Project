@@ -7,10 +7,10 @@ import { setDimStyle, setFocus, setOpacityElement, setResetFocus, showNodeInfo, 
 const ipExp = /((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})/g;
 const exclusiveIp = /^127/;
 
-const loadBalancerIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/lb_green.png';
+const loadBalancerIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/lb.png';
 const switchIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/0.switch.png';
-const instanceIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/instance_.green.png';
-const instanceWarningIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/instance_.red.png'
+const instanceIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/instance_green.png';
+const instanceWarningIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/instance_red.png'
 const serverIconUrl = 'https://image.flaticon.com/icons/png/512/622/622397.png';
 const cloudIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/0.cloud.png';
 const unknownDeviceIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/0.unknown.png';
