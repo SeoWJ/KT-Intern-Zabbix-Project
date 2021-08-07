@@ -7,9 +7,10 @@ import { setDimStyle, setFocus, setOpacityElement, setResetFocus, showNodeInfo, 
 const ipExp = /((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})/g;
 const exclusiveIp = /^127/;
 
-const loadBalancerIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/0.lb.png';
+const loadBalancerIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/lb_green.png';
 const switchIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/0.switch.png';
-const instanceIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/0.instance.png';
+const instanceIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/instance_.green.png';
+const instanceWarningIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/instance_.red.png'
 const serverIconUrl = 'https://image.flaticon.com/icons/png/512/622/622397.png';
 const cloudIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/0.cloud.png';
 const unknownDeviceIconUrl = 'https://raw.githubusercontent.com/SeoWJ/img/main/0.unknown.png';
@@ -210,6 +211,9 @@ hosts.then((hosts) => {
             if (items[i]['name'] == "Is This Apache Server" && items[i]['lastvalue'] == 1) {
                 cy.$('node[id = "' + items[i]["hostid"] + '"]')[0].data('type', 'apacheServer');
                 cy.$('node[id = "' + items[i]["hostid"] + '"]')[0].style('background-image', instanceIconUrl);
+                if(items[i]["hostid"] == 10427){
+                    cy.$('node[id = "' + items[i]["hostid"] + '"]')[0].style('background-image', instanceWarningIconUrl);
+                }
             }
             else if (items[i]['name'] == "Is This HAProxy LoadBalancer" && items[i]['lastvalue'] == 1) {
                 cy.$('node[id = "' + items[i]["hostid"] + '"]')[0].data('type', 'lb');
